@@ -2,7 +2,6 @@
   "name": "blog-front",
   "private": true,
   "version": "0.0.1",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -18,7 +17,10 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-customizable"
+      "path": "cz-customizable"
+    },
+    "cz-customizable": {
+      "config": ".cz-config.js"
     }
   },
   "lint-staged": {
