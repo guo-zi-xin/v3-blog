@@ -1,33 +1,89 @@
-'use strict';
-
 module.exports = {
-  // git 提交类型配置
   types: [
-    { value: 'feat', name: 'feat: 新增功能' },
-    { value: 'bug', name: 'bug: 测试反馈bug列表中的bug号' },
-    { value: 'fix', name: 'fix: 修复bug' },
-    { value: 'ui', name: 'ui: 更新UI' },
-    { value: 'docs', name: 'docs: 文档变更' },
-    { value: 'style', name: 'style: 代码格式(不影响代码运行的变动)' },
-    { value: 'perf', name: 'perf: 性能优化' },
-    { value: 'refactor', name: 'refactor: 重构(既不是增加feature，也不是修复bug)' },
-    { value: 'release', name: 'release: 发布' },
-    { value: 'deploy', name: 'deploy: 部署' },
-    { value: 'test', name: 'test: 增加测试' },
-    { value: 'chore', name: 'chore: 构建过程或辅助工具的变动(更改配置文件)' },
-    { value: 'revert', name: 'revert: 撤销提交' },
-    { value: 'build', name: 'build: 打包' }
+    {
+      value: 'feat',
+      name: 'feat: 新增功能'
+    },
+    {
+      value: 'fix',
+      name: 'fix: 修复bug'
+    },
+    {
+      value: 'init',
+      name: 'init: 初始化'
+    },
+    {
+      value: ':pencil2: docs',
+      name: 'docs: 文档变更'
+    },
+    {
+      value: 'style',
+      name: 'style: 代码格式化'
+    },
+    {
+      value: 'refactor',
+      name: 'refactor: 功能重构'
+    },
+    {
+      value: 'perf',
+      name: 'perf: 性能优化'
+    },
+    {
+      value: 'test',
+      name: 'test: 测试编码'
+    },
+    {
+      value: 'revert',
+      name: 'revert: 代码回退'
+    },
+    {
+      value: 'build',
+      name: 'build: 变更构建打包工具(webpack、vite、npm、gulp等)'
+    },
+    {
+      value: 'chore',
+      name: 'chore: 变更构建流程或者辅助工具'
+    },
+    {
+      value: 'ci',
+      name: 'ci: 更改持续集成'
+    }
   ],
-  // 交互提示信息
   messages: {
-    type: '请选择提交的类型:',
-    customScope: '请输入本次提交的范围(可选):',
-    subject: '请简要描述本次提交的内容(必填):',
-    body: '请输入详细描述(可选，待优化为自动换行):',
-    footer: '请输入要关闭的issue(可选，例如: #31, #34):',
-    confirmCommit: '确认提交?'
+    type: '请选择提交类型(必填)',
+    scope: '请输入文件修改范围(可选)',
+    subject: '请简要描述修改内容(必填)',
+    body: '请详细描述修改内容,多条可用"|"拆分(可选)',
+    breaking: '请列出非兼容性重大的变更 BREAKING CHANGES(可选)',
+    footer: '请列出修复并关闭的issue(可选),例如: #25, #100',
+    confirmCommit: '确定提交信息内容吗？'
   },
-  allowCustomScopes: true, // 是否允许自定义scope
-  skipquestions: ['body', 'footer'], // 跳过选项
-  subjectLimit: 100 // 限制主题长度
+  scopes: [
+    ['build', '打包工具'],
+    ['mock', 'mock服务'],
+    ['config', '基础配置'],
+    ['lint', 'lint验证'],
+    ['components', '组件模块'],
+    ['pages', '调整页面'],
+    ['services', '调整服务'],
+    ['http', 'http请求工具'],
+    ['router', '路由工具'],
+    ['utils', 'utils 相关'],
+    ['themes', '主题调整'],
+    ['styles', '样式调整'],
+    ['deps', '项目依赖'],
+    ['store', 'vuex管理'],
+    ['hooks', 'hooks管理'],
+    ['other', '其他修改'],
+    // 如果选择 custom ,后面会让你再输入一个自定义的 scope , 也可以不设置此项， 把后面的 allowCustomScopes 设置为 true
+    ['custom', '以上都不是？我要自定义']
+  ].map(([value, description]) => {
+    return {
+      value,
+      name: `${value.padEnd(30)} (${description})`
+    }
+  }),
+  allowCustomScopes: true,
+  allowBreakingChanges: ['feat', 'fix', 'refactor'], // 当提交类型为feat、fix时才有破坏性修改选项
+  subjectLimit: 80 // 摘要字符长度限制
 }
