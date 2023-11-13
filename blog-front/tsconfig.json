@@ -5,9 +5,16 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-
+    "baseUrl": "./",
+  
+    /* 设置文件路径, 防止ts报错找不到路径异常 */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@tests/*": ["./tests/*"],
+      "@config/*": ["./config/*"]
+   },
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // 模块解析方式
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -16,8 +23,10 @@
 
     /* Linting */
     "strict": true,
+    "allowJs": true, // 允许引入js文件
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "allowSyntheticDefaultImports":true, // 允许默认导入
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],

@@ -1,25 +1,33 @@
 <script setup lang="ts">
-  import HelloWorld from './components/HelloWorld.vue'
-  import { NConfigProvider } from 'naive-ui'
+import { ref } from 'vue'
+import { NConfigProvider } from 'naive-ui'
+import type { GlobalTheme } from 'naive-ui'
+
+const theme = ref<GlobalTheme | null>(null)
+
 </script>
 
 <template>
-  <NConfigProvider>
-    <HelloWorld msg="Vite + Vue" />
+  <NConfigProvider :theme="theme">
+    <div class="app">
+      <router-view></router-view>
+    </div>
   </NConfigProvider>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+<style scoped lang="scss">
+.app {
+  width: 100%;
+  height:100%;
+  box-sizing: border-box;
+
+  .icon-fanhui {
+    position: fixed;
+    left: 5px;
+    top: 60px;
+    font-size: 2.2rem;
+    color: var(--font-color);
+    z-index: 999;
+  }
 }
 </style>
