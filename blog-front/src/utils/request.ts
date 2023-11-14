@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNotification } from 'naive-ui'
-import { user } from '@/store/index';
+import  useUserInfo  from '@/store/user';
+import router from '@/router/index'
 
 const notification = useNotification()
 
@@ -19,7 +20,7 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // do something
-    const userStore = user();
+    const userStore = useUserInfo();
     if (userStore.getToken) {
       Object.assign(config.headers, {
         Authorization: userStore.getToken
@@ -65,6 +66,7 @@ service.interceptors.response.use(
           duration: 1000,
           keepAliveOnHover: true
         })
+        router.push("/home");
         break;
       case '403':
         // 403 表示没有权限访问

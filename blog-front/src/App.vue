@@ -1,33 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { NConfigProvider } from 'naive-ui'
-import type { GlobalTheme } from 'naive-ui'
+import { useTheme } from '@/hooks/useTheme'
 
-const theme = ref<GlobalTheme | null>(null)
+const { hasTheme, themeOverrides } = useTheme()
 
+console.log(hasTheme)
 </script>
 
 <template>
-  <NConfigProvider :theme="theme">
-    <div class="app">
-      <router-view></router-view>
-    </div>
+  <NConfigProvider class="h-full" :theme="hasTheme" :theme-overrides="themeOverrides">
+    <router-view></router-view>
   </NConfigProvider>
 </template>
 
-<style scoped lang="scss">
-.app {
+<style lang="scss">
+#app {
   width: 100%;
-  height:100%;
-  box-sizing: border-box;
-
-  .icon-fanhui {
-    position: fixed;
-    left: 5px;
-    top: 60px;
-    font-size: 2.2rem;
-    color: var(--font-color);
-    z-index: 999;
-  }
+  height: 100vh;
+  padding: 0;
+  margin: 0 auto;
+}
+.h-full {
+  widows: 100%;
 }
 </style>
