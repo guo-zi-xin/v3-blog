@@ -10,8 +10,8 @@ export const useBaseInfo = defineStore('base', () => {
   // 设置主题色
   const setTheme = (themes: Theme) => {
     theme.value = themes
+    console.log('store',themes)
   }
-  console.log('store', theme)
   return {
     theme,
     setTheme,

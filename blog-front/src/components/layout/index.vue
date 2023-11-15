@@ -6,10 +6,14 @@ import BlogFooter from './BlogFooter.vue'
 
 <template>
   <div calss="layout">
-    <BlogHeader></BlogHeader>
-    <BlogMain></BlogMain>
-    <BlogFooter></BlogFooter>
+    <BlogHeader />
+    <BlogMain />
+    <BlogFooter />
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout {
+  position: relative;
+}
+</style>
