@@ -1,6 +1,9 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import AutoImport from 'unplugin-auto-import/vite'; // 自动引入组件
+import Components from 'unplugin-vue-components/vite'; // 按需引入组件
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'; // 按需引入element-plus组件
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -112,5 +115,13 @@ export default defineConfig({
     minify: 'terser'
   },
   // 插件
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    })
+  ],
 })
