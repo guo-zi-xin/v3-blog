@@ -5,4 +5,6 @@
   <router-view></router-view>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+
+</style>

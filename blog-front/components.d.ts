@@ -11,9 +11,12 @@ declare module 'vue' {
     BlogHeader: typeof import('./src/components/layout/BlogHeader.vue')['default']
     BlogMain: typeof import('./src/components/layout/BlogMain.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCol: typeof import('element-plus/es')['ElCol']
+    ElRow: typeof import('element-plus/es')['ElRow']
     Helloworld: typeof import('./src/components/Helloworld.vue')['default']
     Layout: typeof import('./src/components/layout/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SvgIcon: typeof import('./src/components/SvgIcon/SvgIcon.vue')['default']
   }
 }

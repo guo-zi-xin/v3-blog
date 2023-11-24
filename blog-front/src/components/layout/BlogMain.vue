@@ -1,22 +1,5 @@
 <script setup lang="ts">
 const polygonOption: Array<string> = [...Array(3).keys()].map((item: number) => `g-polygon-${item + 1}`.toString())
-
-  function minEatingSpeed(piles: number[], h: number): number {
-    let speed: number = 0 
-    for (let k = 0; k < piles.length; k++) {
-      console.log(k, Math.ceil((piles[k] / h)))
-      if (Math.ceil((piles[k] / h)) - speed === 0) {
-        speed = Math.ceil((piles[k] / h))
-      } else {
-        
-      }
-    }
-    return speed
-};
-
-const arr =[3,6,7,11]
-const h = 8
-console.log(minEatingSpeed(arr, h))
 </script>
 
 <template>

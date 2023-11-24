@@ -28,6 +28,9 @@ body {
   width: 100vw;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #f7f8f9;
+  border: 1px solid transparent;
+  overflow: hidden;
 }
 
 h1 {
