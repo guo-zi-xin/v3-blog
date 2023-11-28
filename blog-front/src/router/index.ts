@@ -1,33 +1,14 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-import Layout from "@/components/layout/index.vue";
-import navPage from "@/views/index.vue";
-
-const routes = [
-  {
-    path: '/',
-    name: 'Nav',
-    meta: { title: '导航' },
-    component: Layout,
-  },
-  {
-    path: '/',
-    component: Layout,
-    meta: { title: 'Layout' },
-    redirect: '/home',
-    children: [
-      {
-        path: '/home',
-        name: '首页',
-        meta: { title: '首页' },
-        component: () => import('@/views/home/index.vue')
-      }
-    ]
-  }
-];
+import {createWebHistory, createRouter} from "vue-router";
+import type {App} from 'vue'
+// 获取所有路由
+import routes from './routes'
 
 const router = createRouter({
-  history: createWebHashHistory(),
   routes,
-});
+  // 这里使用历史记录模式
+  history: createWebHistory()
+})
 
-export default router;
+export const useRouter = (app: App<Element>): void => {
+    app.use(router)
+}
