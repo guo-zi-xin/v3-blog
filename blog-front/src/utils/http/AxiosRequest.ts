@@ -18,22 +18,22 @@ const errorStartMap = new Map([
 
 
 
-const errorHandler = (err:any) => {
+const errorHandler = (err: any) => {
   if (err.config?.requestOptions.showLoading) {
-
+    window.$loadingBar.error();
   }
   if (err.config?.requestOptions.showErrorMessage) {
-    const message: string = errorStartMap.get(err.response.status)|| '请求出错，请稍后再试。';
+    const message: string = errorStartMap.get(err.response.status) || '请求出错，请稍后再试。';
     handleErrorMessage(message)
   }
   return Promise.reject(err)
 }
 
-const handleErrorMessage = (errorMessage:string) => {
-
+const handleErrorMessage = (errorMessage: string) => {
+  window.$message.error(errorMessage);
 }
 
-const successCode:number = 1
+const successCode: number = 1
 
 export class AxiosRequest {
   private defaultConfig: ExpandAxiosRequestConfig = {
@@ -59,27 +59,27 @@ export class AxiosRequest {
    * @title 通用请求方法
    */
 
-  public request<D,R>(config:ExpandAxiosRequestConfig<D>): Promise<AxiosResponse<R>> {
+  public request<D, R>(config: ExpandAxiosRequestConfig<D>): Promise<AxiosResponse<R>> {
     return this.axiosInstance.request(config)
   }
 
   /**
    * @title get请求
    */
-  public get<D, R>(url: string, config:ExpandAxiosRequestConfig<D> = {}):Promise<R> {
+  public get<D, R>(url: string, config: ExpandAxiosRequestConfig<D> = {}): Promise<R> {
     let requestOptions = config.requestOptions
     if (requestOptions) {
       requestOptions.transform = true
       config.requestOptions = requestOptions;
     }
-    return this.axiosInstance.get(url,config)
+    return this.axiosInstance.get(url, config)
   }
 
   /**
    * @title get请求
    */
 
-  public getNoTaansRes<D, R>(url: string, config: ExpandAxiosRequestConfig<D>  = {}): Promise<ApiResponse<R>> {
+  public getNoTaansRes<D, R>(url: string, config: ExpandAxiosRequestConfig<D> = {}): Promise<ApiResponse<R>> {
     let requestOptions = config.requestOptions || {}
     if (requestOptions) {
       requestOptions = {}
@@ -92,7 +92,7 @@ export class AxiosRequest {
   /**
    * @title post 请求
    */
-  public post<D, R> (url: string, config: ExpandAxiosRequestConfig<D> = {}, data?:D): Promise<R> {
+  public post<D, R>(url: string, config: ExpandAxiosRequestConfig<D> = {}, data?: D): Promise<R> {
     let requestOptions = config.requestOptions
     if (requestOptions) {
       requestOptions.transform = true
@@ -119,7 +119,7 @@ export class AxiosRequest {
       async (config: ExpandInternalAxiosRequestConfig) => {
         // loading加载
         if (config.requestOptions?.showLoading) {
-
+          window.$loadingBar.start();
         }
         // hook 
         if (config.interceptorHooks?.beforeRequestCallback) {
@@ -133,10 +133,10 @@ export class AxiosRequest {
 
   private interceptResponse(): void {
     this.axiosInstance.interceptors.response.use(
-      async (response:ExpandAxiosResponse): Promise<any> => {
+      async (response: ExpandAxiosResponse): Promise<any> => {
         // loading加载
         if (response.config.requestOptions?.showLoading) {
-
+          window.$loadingBar.finish();
         }
         // hook
         if (response.config.interceptorHooks?.beforeResponseCallback) {
