@@ -4,8 +4,7 @@
 
 <template>
   <div>
-    <h3>home页面</h3>
-    <router-link to="/category">Go to Category</router-link>
+    <router-link to="/category/front">Go to Category front</router-link>
   </div>
 </template>
 

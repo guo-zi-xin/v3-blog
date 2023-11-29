@@ -8,7 +8,6 @@ const counterStore = useCounterStore()
     <div class="card">
     <n-button type="primary" @click="counterStore.increment">count is {{ counterStore.count }}</n-button>
   </div>
-    <h3>分类页</h3>
     <router-link to="/home">Go to Home</router-link>
   </div>
 </template>
