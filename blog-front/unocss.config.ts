@@ -1,6 +1,8 @@
-// uno.config.ts
-import { defineConfig } from 'unocss'
+import { defineConfig, presetAttributify, presetUno } from 'unocss'
 
 export default defineConfig({
-  // ...UnoCSS options
+  shortcuts: {
+    'wh-full': 'w-full h-full'
+  },
+  presets: [presetUno(), presetAttributify()]
 })
