@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useMenu } from "@/composables/useMenu";
+import { useMenu } from "@/composable/useMenu";
 
 
 const menuMap = new Map(
@@ -50,4 +50,4 @@ const switchActive = ref(false);
   left: 50%;
   z-index: 10;
 }
-</style>
+</style>@/composable/useMenu
