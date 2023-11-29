@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import AutoImport from 'unplugin-auto-import/vite'; // 自动引入组件
 import Components from 'unplugin-vue-components/vite'; // 按需引入组件
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'; // 按需引入NativeUI的解析器
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'; // 按需引入NaiveUI的解析器
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons"; // 支持svg
 import viteCompression from "vite-plugin-compression"; // gzip压缩
 import requireTransform from "vite-plugin-require-transform"; // 支持require
