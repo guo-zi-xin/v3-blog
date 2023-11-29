@@ -1,6 +1,16 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import AutoImport from 'unplugin-auto-import/vite'; // 自动引入组件
+import Components from 'unplugin-vue-components/vite'; // 按需引入组件
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'; // 按需引入NativeUI的解析器
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons"; // 支持svg
+import viteCompression from "vite-plugin-compression"; // gzip压缩
+import requireTransform from "vite-plugin-require-transform"; // 支持require
+import UnoCSS from 'unocss/vite' // unocss
+import presetUno from '@unocss/preset-uno' // unocss预设
+import presetAttributify from '@unocss/preset-attributify'	// unocss预设
+import {ViconsResolver} from './ViconsResolver' // 引入Xicons图标组件
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,6 +25,7 @@ export default defineConfig({
       '@config': path.resolve(__dirname, 'src/config'), // 配置文件根目录    
     }
   },
+
   // 服务
   server: {
     port: 9090, // 指定端口号
@@ -32,6 +43,7 @@ export default defineConfig({
       },
     }
   },
+
   // 构建
   build: {
     /**
@@ -111,6 +123,42 @@ export default defineConfig({
      */
     minify: 'terser'
   },
+
   // 插件
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [NaiveUiResolver()],
+    }),
+    Components({
+      dts: true, // ts 环境下要启用  
+      resolvers: [NaiveUiResolver(), ViconsResolver()], // 按需引入样式组件
+      dirs: ['src/components', 'src/layouts'], // 指定扫描的文件夹
+    }),
+    // gzip压缩
+    viteCompression({
+      verbose: true, // 默认即可
+      disable: false, //开启压缩(不禁用)，默认即可
+      deleteOriginFile: false, //删除源文件
+      threshold: 10240, //压缩前最小文件大小
+      algorithm: "gzip", //压缩算法
+      ext: ".gz", //文件类型
+    }),
+    // 让vite支持require
+    requireTransform({
+      fileRegex: /.ts$|.vue$/,
+    }),
+    // svg
+    createSvgIconsPlugin({
+      // Specify the icon folder to be cached
+      iconDirs: [path.resolve(process.cwd(), "src/icons/svg")],
+    }),
+    // UnoCSS
+    UnoCSS({
+      presets: [
+        presetUno(),
+        presetAttributify(),
+      ]
+    }),
+  ],
 })
