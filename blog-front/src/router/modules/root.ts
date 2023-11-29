@@ -5,6 +5,9 @@ const rootRoutes: RouteRecordRaw[] = [
     path: '/',
     name: 'Home',
     redirect: '/home',
+    meta: {
+      hidden:true
+    }
   }
 ]
 
