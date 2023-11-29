@@ -2,7 +2,9 @@
 </script>
 
 <template>
-  <router-view></router-view>
+  <AppProvider>
+    <router-view></router-view>
+  </AppProvider>
 </template>
 
 <style lang="scss">
