@@ -1,10 +1,21 @@
-import type { RouteRecordRaw } from 'vue-router'
+import BasicLayout from "@/components/layouts/BasicLayout.vue";
+import { SmartHome } from '@vicons/tabler'
+import type { RouteRecord } from '@/router/type'
 
-const homeRoutes: RouteRecordRaw[] = [
+const homeRoutes: RouteRecord[] = [
   {
     path: '/home',
-    name: '首页',
-    component: () => import('@/views/home/index.vue')
+    component: BasicLayout,
+    children: [
+      {
+        path: '/home',
+        name: '首页',
+        component: () => import('@/views/home/index.vue'),
+        meta: {
+          icon: SmartHome,
+        }
+      },
+    ]
   }
 ]
 

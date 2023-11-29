@@ -1,12 +1,13 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecord } from '@/router/type'
 
-const errorRoutes: RouteRecordRaw[] = [
+const errorRoutes: RouteRecord[] = [
   // 403 页面禁止访问
   {
     path: '/403',
     name: 'NotForbidden',
     meta: {
-      title: 'Page Not Forbidden'
+      title: 'Page Not Forbidden',
+      hidden:true
     },
     component: () => import('@/views/error/403.vue')
   },
@@ -16,7 +17,8 @@ const errorRoutes: RouteRecordRaw[] = [
     path: '/404',
     name: 'NotFound',
     meta: {
-      title: 'Page Not Found'
+      title: 'Page Not Found',
+      hidden:true
     },
     component: () => import('@/views/error/404.vue')
   },
@@ -25,14 +27,18 @@ const errorRoutes: RouteRecordRaw[] = [
     path: '/500',
     name: 'ServerError',
     meta: {
-      title: 'Server Error'
+      title: 'Server Error',
+      hidden:true
     },
     component: () => import('@/views/error/500.vue')
   },
    // 所有未匹配的路由都会跳转到404页面
    {
     path: '/:pathMatch(.*)*',
-    redirect: '/404'
+    redirect: '/404',
+    meta: {
+      hidden: true
+    }
    }
 ]
 
