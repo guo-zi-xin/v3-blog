@@ -1,0 +1,1 @@
+export const MENU_MAP = new Map([['首页', 1], ['分类', 2]])
