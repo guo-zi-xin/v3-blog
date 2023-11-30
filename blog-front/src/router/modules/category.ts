@@ -1,6 +1,7 @@
 import { RouteRecord } from '@/router/type'
 import BasicLayout from "@/components/layouts/BasicLayout.vue";
 import { AlignCenter } from '@vicons/tabler'
+import { MenuBookRound, CameraAltOutlined } from '@vicons/material'
 
 const categoryRoutes: RouteRecord[] = [
   {
@@ -12,19 +13,19 @@ const categoryRoutes: RouteRecord[] = [
     },
     children: [
       {
-        path: '/category/front',
-        name: '前端',
-        component: () => import('@/views/category/front/index.vue'),
+        path: '/category/essay',
+        name: '随笔',
+        component: () => import('@/views/category/essay/index.vue'),
         meta: {
-          icon: AlignCenter,
+          icon: MenuBookRound,
         }
       },
       {
-        path: '/category/server',
-        name: '后端',
-        component: () => import('@/views/category/server/index.vue'),
+        path: '/category/life',
+        name: '生活',
+        component: () => import('@/views/category/life/index.vue'),
         meta: {
-          icon: AlignCenter,
+          icon: CameraAltOutlined,
         }
       }
     ]
