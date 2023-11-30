@@ -1,5 +1,18 @@
+<script setup lang="ts">
+  import { zhCN, dateZhCN, darkTheme } from "naive-ui";
+  import { storeToRefs } from "pinia";
+  import WindowDialog from "./WindowDialog";
+  import WindowLoadingBar from "./WindowLoadingBar";
+  import WindowMessage from "./WindowMessage";
+  import WindowNotification from "./WindowNotification";
+  import { useThemeStore } from '@/store/modules/theme'
+
+  const { themeChange  } = storeToRefs(useThemeStore());
+
+</script>
+
 <template>
-  <n-config-provider :locale="zhCN" :date-locale="dateZhCN" wh-full>
+  <n-config-provider :locale="zhCN" :date-locale="dateZhCN" :theme="themeChange? darkTheme: null" wh-full>
     <n-dialog-provider>
       <window-dialog />
       <n-notification-provider>
@@ -16,11 +29,4 @@
   </n-config-provider>
 </template>
 
-<script setup lang="ts">
-import { zhCN, dateZhCN, } from "naive-ui";
-import WindowDialog from "./WindowDialog";
-import WindowLoadingBar from "./WindowLoadingBar";
-import WindowMessage from "./WindowMessage";
-import WindowNotification from "./WindowNotification";
-</script>
 <style scoped></style>
