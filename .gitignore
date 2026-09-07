@@ -1,0 +1,11 @@
+# 本机无关文件，避免误提交
+*.log
+node_repl_bridge.mjs
+2026-06-07/
+ai-category-stage/
+郭子鑫-前端开发2026-修改版.md
+
+# 系统与编辑器
+.DS_Store
+.idea/
+.vscode/
