@@ -1,9 +1,10 @@
 import { IsArray, IsOptional, IsString, MinLength } from 'class-validator';
 
-export class CreatePostDto {
+export class UpdatePostDto {
+  @IsOptional()
   @IsString()
   @MinLength(1)
-  title: string;
+  title?: string;
 
   @IsOptional()
   @IsString()

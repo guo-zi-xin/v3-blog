@@ -11,6 +11,7 @@ const props = withDefaults(
 const navItems = [
   { label: '首页', to: { name: 'home' } },
   { label: '归档', to: { name: 'archives' } },
+  { label: '写笔记', to: { name: 'write' } },
 ];
 
 const scrolled = ref(false);

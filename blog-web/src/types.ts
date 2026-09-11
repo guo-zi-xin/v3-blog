@@ -6,6 +6,15 @@ export interface Post {
   cover?: string;
   tags?: string[];
   createdAt: string;
+  updatedAt?: string;
+}
+
+export interface PostPayload {
+  title: string;
+  category: string;
+  content: string;
+  cover?: string;
+  tags?: string[];
 }
 
 export interface PostListResponse {

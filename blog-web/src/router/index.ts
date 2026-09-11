@@ -30,6 +30,11 @@ const router = createRouter({
           component: () => import('../views/CategoryView.vue'),
         },
         {
+          path: 'write',
+          name: 'write',
+          component: () => import('../views/WriteView.vue'),
+        },
+        {
           path: '404',
           name: 'not-found',
           component: () => import('../views/NotFoundView.vue'),
