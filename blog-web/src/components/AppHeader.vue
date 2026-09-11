@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useAuthStore } from '../stores/auth';
 
 const props = withDefaults(
   defineProps<{
@@ -8,11 +9,15 @@ const props = withDefaults(
   { transparent: false },
 );
 
-const navItems = [
+const auth = useAuthStore();
+
+const navItems = computed(() => [
   { label: '首页', to: { name: 'home' } },
   { label: '归档', to: { name: 'archives' } },
-  { label: '写笔记', to: { name: 'write' } },
-];
+  auth.isLoggedIn
+    ? { label: '写笔记', to: { name: 'write' } }
+    : { label: '登录', to: { name: 'write' } },
+]);
 
 const scrolled = ref(false);
 
@@ -54,6 +59,9 @@ onBeforeUnmount(() => {
         >
           {{ item.label }}
         </RouterLink>
+        <button v-if="auth.isLoggedIn" type="button" class="logout" @click="auth.logout()">
+          退出
+        </button>
       </nav>
     </div>
   </header>
@@ -145,5 +153,27 @@ onBeforeUnmount(() => {
   color: var(--primary);
   background: #e8eefd;
   font-weight: 600;
+}
+
+.logout {
+  margin-left: 4px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logout:hover {
+  color: #d92d20;
+  border-color: #f6cfcc;
+}
+
+.app-header.overlay:not(.solid) .logout {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
 }
 </style>

@@ -36,6 +36,19 @@ npm run dev
 打开 <http://localhost:5173> 即可浏览，`/#/write` 是简易写笔记页面；
 上传的图片保存在 `nest-demo/uploads/`。
 
+## 管理员登录
+
+写笔记需要登录，账号配置在 `nest-demo/.env`（该文件不提交到 GitHub）：
+
+```
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="你自己的强密码"
+JWT_SECRET="一串足够长的随机字符串"
+```
+
+打开 <http://localhost:5173/#/write> 输入用户名密码即可；未登录时只能看到登录框，
+后端的新增、修改、删除、上传接口都会返回 401。
+
 ## 更新笔记
 
 帖子保存在本地 SQLite 数据库 `nest-demo/prisma/dev.db`（已在 .gitignore 中排除），
@@ -44,8 +57,9 @@ npm run dev
 1. 打开 <http://localhost:5173/#/write>，在页面上新增、编辑、删除笔记；
 2. 直接调用接口：`POST /posts` 新增，`PATCH /posts/:id` 修改，`DELETE /posts/:id` 删除。
 
-注意：写笔记页面当前没有登录校验，仅适合本地使用；上线前必须补上后台鉴权。
-
 ## 说明
 
 数据库当前使用 SQLite（免费、零配置）；后续上线可切换到 PostgreSQL，Prisma 代码基本不用改。
+
+发布上线时注意：GitHub Pages 只能托管静态前端，NestJS 后端和数据库必须另外部署
+（VPS / Railway / Render 等），否则公开站点上发帖功能不可用。

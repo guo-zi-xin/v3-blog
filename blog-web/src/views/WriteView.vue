@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { createPost, deletePost, updatePost } from '../api/blog';
+import { AUTH_TOKEN_KEY, createPost, deletePost, updatePost } from '../api/blog';
+import { useAuthStore } from '../stores/auth';
 import { useBlogStore } from '../stores/blog';
 import type { Post, PostPayload } from '../types';
 
 const store = useBlogStore();
+const auth = useAuthStore();
+
+const loginForm = ref({ username: 'admin', password: '' });
+const loggingIn = ref(false);
+const loginError = ref('');
 
 const editingId = ref<number | null>(null);
 const saving = ref(false);
@@ -24,8 +30,35 @@ const form = ref({
 const isEditing = computed(() => editingId.value !== null);
 
 onMounted(() => {
-  store.fetchPosts();
+  if (auth.isLoggedIn) store.fetchPosts();
 });
+
+async function doLogin() {
+  if (!loginForm.value.username || !loginForm.value.password) {
+    loginError.value = '请输入用户名和密码';
+    return;
+  }
+
+  loggingIn.value = true;
+  loginError.value = '';
+  try {
+    await auth.login(loginForm.value.username, loginForm.value.password);
+    loginForm.value.password = '';
+    successMsg.value = '登录成功';
+    await store.fetchPosts(true);
+  } catch (err) {
+    loginError.value = (err as Error).message;
+  } finally {
+    loggingIn.value = false;
+  }
+}
+
+function logout() {
+  auth.logout();
+  resetForm();
+  errorMsg.value = '';
+  successMsg.value = '已退出登录';
+}
 
 function resetForm() {
   editingId.value = null;
@@ -60,10 +93,14 @@ async function uploadCover(event: Event) {
   const body = new FormData();
   body.append('file', file);
 
+  const headers = new Headers();
+  const token = localStorage.getItem(AUTH_TOKEN_KEY);
+  if (token) headers.set('Authorization', `Bearer ${token}`);
+
   uploading.value = true;
   errorMsg.value = '';
   try {
-    const res = await fetch('/upload', { method: 'POST', body });
+    const res = await fetch('/upload', { method: 'POST', body, headers });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message ?? '上传失败');
     form.value.cover = data.url;
@@ -128,16 +165,42 @@ async function removeNote(post: Post) {
 
 <template>
   <div class="container write-page">
-    <div class="notice">
-      ⚠️ 这是本地写笔记页，暂未加登录校验，上线前必须加权限（否则任何人都能改文章）。
-    </div>
-
     <div v-if="errorMsg" class="banner error">{{ errorMsg }}</div>
     <div v-if="successMsg" class="banner success">{{ successMsg }}</div>
 
-    <div class="write-layout">
+    <section v-if="!auth.isLoggedIn" class="card login-card">
+      <h2 class="section-title">管理员登录</h2>
+      <p class="login-tip">只有登录后才能新增、修改、删除笔记。</p>
+      <div v-if="loginError" class="banner error">{{ loginError }}</div>
+
+      <label>
+        用户名
+        <input v-model="loginForm.username" placeholder="admin" />
+      </label>
+      <label>
+        密码
+        <input
+          v-model="loginForm.password"
+          type="password"
+          placeholder="请输入管理员密码"
+          @keyup.enter="doLogin"
+        />
+      </label>
+
+      <button type="button" class="primary" :disabled="loggingIn" @click="doLogin">
+        {{ loggingIn ? '登录中…' : '登录' }}
+      </button>
+    </section>
+
+    <div v-else class="write-layout">
       <section class="card editor">
-        <h2 class="section-title">{{ isEditing ? '编辑笔记' : '写一篇新笔记' }}</h2>
+        <div class="editor-head">
+          <h2 class="section-title">{{ isEditing ? '编辑笔记' : '写一篇新笔记' }}</h2>
+          <div class="who">
+            <span>{{ auth.username }}</span>
+            <button type="button" class="link-btn" @click="logout">退出登录</button>
+          </div>
+        </div>
 
         <label>
           标题
@@ -218,13 +281,35 @@ async function removeNote(post: Post) {
   padding: 26px 0 70px;
 }
 
-.notice {
-  margin-bottom: 16px;
-  padding: 10px 14px;
-  border: 1px solid #ffe2b8;
-  border-radius: 10px;
-  background: #fff8ec;
-  color: #9a6700;
+.login-card {
+  max-width: 420px;
+  margin: 40px auto 0;
+  padding: 28px 30px;
+  display: grid;
+  gap: 14px;
+}
+
+.login-tip {
+  margin: -6px 0 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.editor-head .section-title {
+  margin-bottom: 0;
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
   font-size: 13px;
 }
 
