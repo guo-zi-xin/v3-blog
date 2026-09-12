@@ -9,10 +9,10 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
-import { PostsService } from './posts.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
+import { CreatePostDto } from './dto/create-post.dto.js';
+import { UpdatePostDto } from './dto/update-post.dto.js';
+import { PostsService } from './posts.service.js';
 
 @Controller('posts')
 export class PostsController {

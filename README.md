@@ -61,5 +61,8 @@ JWT_SECRET="一串足够长的随机字符串"
 
 数据库当前使用 SQLite（免费、零配置）；后续上线可切换到 PostgreSQL，Prisma 代码基本不用改。
 
+后端已迁移到 **ESM**（`package.json` 中 `"type": "module"` + TypeScript `NodeNext`），
+因此可以使用最新版 `@nestjs/jwt` 等纯 ESM 依赖；相对导入需要带 `.js` 后缀。
+
 发布上线时注意：GitHub Pages 只能托管静态前端，NestJS 后端和数据库必须另外部署
 （VPS / Railway / Render 等），否则公开站点上发帖功能不可用。

@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import jwt from 'jsonwebtoken';
-import { LoginDto } from './dto/login.dto';
+import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dto/login.dto.js';
 
 export interface JwtPayload {
   sub: string;
@@ -10,6 +10,8 @@ export interface JwtPayload {
 
 @Injectable()
 export class AuthService {
+  constructor(private readonly jwtService: JwtService) {}
+
   private get adminUsername(): string {
     return process.env.ADMIN_USERNAME ?? 'admin';
   }
@@ -37,14 +39,14 @@ export class AuthService {
     };
 
     return {
-      token: jwt.sign(payload, this.jwtSecret, { expiresIn: '7d' }),
+      token: this.jwtService.sign(payload),
       username: this.adminUsername,
     };
   }
 
   verify(token: string): JwtPayload {
     try {
-      return jwt.verify(token, this.jwtSecret) as JwtPayload;
+      return this.jwtService.verify<JwtPayload>(token);
     } catch {
       throw new UnauthorizedException('登录已过期，请重新登录');
     }

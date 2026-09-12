@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import multer from 'multer';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 
 const UPLOAD_DIR = join(process.cwd(), 'uploads');
 
@@ -20,7 +20,7 @@ export class UploadController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: diskStorage({
+      storage: multer.diskStorage({
         destination: (_req, _file, cb) => {
           mkdirSync(UPLOAD_DIR, { recursive: true });
           cb(null, UPLOAD_DIR);
